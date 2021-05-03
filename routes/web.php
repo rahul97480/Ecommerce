@@ -18,10 +18,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('admin',[AdminController::class,'index']);
+Route::get('password',[AdminController::class,'save_password']);
 Route::post('admin/auth',[AdminController::class,'auth'])->name('admin.auth');
 
 Route::group(['middleware'=>'admin_auth'],function(){
     Route::get('admin/dashboard',[AdminController::class,'dashboard']);
     Route::get('admin/category',[CategoryController::class,'index']);
     Route::get('admin/manage_category',[CategoryController::class,'manage_category']);
+    Route::get('admin/logout', function () {
+        session()->forget('ADMIN_LOGIN');
+        session()->forget('ADMIN_ID');
+       session()->flash('error','Logout sucessfully');
+        return redirect('admin');
+    });
+    
 });
