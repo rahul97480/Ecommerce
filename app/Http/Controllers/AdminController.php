@@ -45,14 +45,6 @@ class AdminController extends Controller
         }
     }
 
-    //saving Admin Passowrd 
-    public function save_password(){
-        $r =Admin::find(1);
-        $r->password=Hash::make('admin');
-        $r->save();
-        echo $r->password;
-    }
-
     public function dashboard()
     {
         return view('admin.dashboard');
