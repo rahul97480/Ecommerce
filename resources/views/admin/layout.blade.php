@@ -20,7 +20,7 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="index.html">
+                        <a class="logo" href="{{url('admin/dashboard')}}">
                             <img src="{{asset('admin_assets/images/icon/logo.png')}}" alt="CoolAdmin" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
@@ -34,29 +34,29 @@
             <nav class="navbar-mobile">
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
-                    <li>
+                    <li class="@yield('dashboard_select')">
                             <a href="{{url('admin/dashboard')}}">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                        
-                        <li>
+                        <li class="@yield('category_select')">
                             <a href="{{url('admin/category')}}">
-                                <i class="fas fa-tachometer-alt"></i>Category</a>
+                                <i class="fas fa-list"></i>Category</a>
                         </li>
 
-                        <li>
+                        <li class="@yield('coupon_select')">
                             <a href="{{url('admin/coupon')}}">
-                                <i class="fas fa-tachometer-alt"></i>Coupon</a>
+                                <i class="fas fa-tag"></i>Coupon</a>
                         </li>
 
-                        <li>
+                        <li class="@yield('size_select')">
                             <a href="{{url('admin/size')}}">
-                                <i class="fas fa-tachometer-alt"></i>Size</a>
+                                <i class="fas fa-window-maximize"></i>Size</a>
                         </li>
 
-                        <li>
+                        <li class="@yield('color_select')">
                             <a href="{{url('admin/color')}}">
-                                <i class="fas fa-tachometer-alt"></i>Color</a>
+                            <i class="fas fa-paint-brush"></i>Color</a>
                         </li>
                     </ul>
                 </div>
@@ -67,8 +67,8 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
-                    <img src="{{asset('admin_assets/images/icon/logo.png')}}" alt="Cool Admin" />
+                <a href="{{url('admin/dashboard')}}">
+                    <img src="{{asset('admin_assets/images/icon/logo.png')}}"/>
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -96,7 +96,12 @@
 
                         <li class="@yield('color_select')">
                             <a href="{{url('admin/color')}}">
-                            <i class="fas fa-paint-roller"></i>Color</a>
+                            <i class="fas fa-paint-brush"></i>Color</a>
+                        </li>
+
+                        <li class="@yield('product_select')">
+                            <a href="{{url('admin/product')}}">
+                            <i class="fa fa-product-hunt"></i>Product</a>
                         </li>
                     </ul>
                 </nav>

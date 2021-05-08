@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Color;
+use Illuminate\Http\Request;
 
 class ColorController extends Controller
 {
@@ -47,7 +47,7 @@ class ColorController extends Controller
             $msg="Color inserted";
         }
         $model->color=$request->post('color');
-        $model->status=0;
+        $model->status=1;
         $model->save();
         $request->session()->flash('message',$msg);
         return redirect('admin/color');
@@ -55,9 +55,9 @@ class ColorController extends Controller
     }
 
     public function delete(Request $request,$id){
-        $model=Color::find($id);
+        $model=color::find($id);
         $model->delete();
-        $request->session()->flash('message','color deleted');
+        $request->session()->flash('message','Color deleted');
         return redirect('admin/color');
     }
 

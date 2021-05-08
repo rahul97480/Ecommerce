@@ -58,7 +58,6 @@ class CouponController extends Controller
         $model->title=$request->post('title');
         $model->code=$request->post('code');
         $model->value=$request->post('value');
-        $model->status=0;
         $model->save();
         $request->session()->flash('message',$msg);
         return redirect('admin/coupon');
