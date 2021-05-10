@@ -63,6 +63,8 @@ Route::group(['middleware'=>'admin_auth'],function(){
     Route::get('admin/product/delete/{id}',[ProductController::class,'delete']);
     Route::get('admin/product/status/{status}/{id}',[ProductController::class,'status']);
     Route::get('admin/product/product_attr_delete/{paid}/{pid}',[ProductController::class,'product_attr_delete']);
+    Route::get('admin/product/product_images_delete/{paid}/{pid}',[ProductController::class,'product_images_delete']);
+    
     
     Route::get('admin/logout', function () {
         session()->forget('ADMIN_LOGIN');
