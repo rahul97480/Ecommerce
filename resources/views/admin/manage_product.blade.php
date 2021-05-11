@@ -96,8 +96,19 @@ Back
                               </select>
                            </div>
                            <div class="col-md-4">
-                              <label for="brand" class="control-label mb-1"> Brand</label>
-                              <input id="brand" value="{{$brand}}" name="brand" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                              <label for="category_id" class="control-label mb-1"> Brand</label>
+                              <select id="brand" name="brand" class="form-control" required>
+                                 <option value="">Select Brand</option>
+                                 @foreach($brands as $list)
+                                 @if($brand==$list->id)
+                                 <option selected value="{{$list->id}}">
+                                    @else
+                                 <option value="{{$list->id}}">
+                                    @endif
+                                    {{$list->name}}
+                                 </option>
+                                 @endforeach
+                              </select>
                            </div>
                            <div class="col-md-4">
                               <label for="model" class="control-label mb-1"> Model</label>
@@ -307,7 +318,7 @@ Back
    var loop_image_count=1; 
    function add_image_more(){
       loop_image_count++;
-      var html='<input id="piid" type="hidden" name="piid[]" value=""><div class="col-md-4 product_images_'+loop_image_count+'"><label for="images" class="control-label mb-1"> Image</label><input id="images" name="images[]" type="file" class="form-control" aria-required="true" aria-invalid="false" ></div>';
+      var html='<input id="piid" type="hidden" name="piid[]" value=""><div class="col-md-4 product_images_'+loop_image_count+'"><label for="images" class="control-label mb-1"> Image</label><input id="images" name="images[]" type="file" class="form-control" aria-required="true" aria-invalid="false" required></div>';
       //product_images_box
        html+='<div class="col-md-2 product_images_'+loop_image_count+'""><label for="attr_image" class="control-label mb-1"> &nbsp;&nbsp;&nbsp;</label><button type="button" class="btn btn-danger btn-lg" onclick=remove_image_more("'+loop_image_count+'")><i class="fa fa-minus"></i>&nbsp; Remove</button></div>'; 
        jQuery('#product_images_box').append(html)
