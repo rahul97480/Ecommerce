@@ -54,7 +54,7 @@ class BrandController extends Controller
             $image=$request->file('image');
             $ext=$image->extension();
             $image_name=time().'.'.$ext;
-            $image->move(public_path('/storage/media/brand'), $image_name);
+            $image->storeAs('/public/media/brand',$image_name);
             $model->image=$image_name;
         }
         

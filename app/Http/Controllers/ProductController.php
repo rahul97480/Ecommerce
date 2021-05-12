@@ -32,6 +32,12 @@ class ProductController extends Controller
             $result['technical_specification']=$arr['0']->technical_specification;
             $result['uses']=$arr['0']->uses;
             $result['warranty']=$arr['0']->warranty;
+            $result['lead_time']=$arr['0']->lead_time;
+            $result['tax_id']=$arr['0']->tax_id;
+            $result['is_promo']=$arr['0']->is_promo;
+            $result['is_featured']=$arr['0']->is_featured;
+            $result['is_discounted']=$arr['0']->is_discounted;
+            $result['is_tranding']=$arr['0']->is_tranding;
             $result['status']=$arr['0']->status;
             $result['id']=$arr['0']->id;
 
@@ -59,6 +65,12 @@ class ProductController extends Controller
             $result['technical_specification']='';
             $result['uses']='';
             $result['warranty']='';
+            $result['lead_time']='';
+            $result['tax_id']='';
+            $result['is_promo']='';
+            $result['is_featured']='';
+            $result['is_discounted']='';
+            $result['is_tranding']='';
             $result['status']='';
             $result['id']=0;
 
@@ -88,6 +100,8 @@ class ProductController extends Controller
         $result['colors']=DB::table('colors')->where(['status'=>1])->get();
 
         $result['brands']=DB::table('brands')->where(['status'=>1])->get();
+
+        $result['taxs']=DB::table('taxs')->where(['status'=>1])->get();
         return view('admin/manage_product',$result);
     }
 
@@ -156,6 +170,12 @@ class ProductController extends Controller
         $model->technical_specification=$request->post('technical_specification');
         $model->uses=$request->post('uses');
         $model->warranty=$request->post('warranty');
+        $model->lead_time=$request->post('lead_time');
+        $model->tax_id=$request->post('tax_id');
+        $model->is_promo=$request->post('is_promo');
+        $model->is_featured=$request->post('is_featured');
+        $model->is_discounted=$request->post('is_discounted');
+        $model->is_trending=$request->post('is_tranding');
         $model->status=1;
         $model->save();
         $pid=$model->id;
@@ -183,7 +203,7 @@ class ProductController extends Controller
                 $attr_image=$request->file("attr_image.$key");
                 $ext=$attr_image->extension();
                 $image_name=$rand.'.'.$ext;
-                $request->file("attr_image.$key")->move(public_path('/storage/media'), $image_name);
+                $request->file("attr_image.$key")->storeAs('/public/media',$image_name);
                 $productAttrArr['attr_image']=$image_name;
             }
 
@@ -205,7 +225,7 @@ class ProductController extends Controller
                 $images=$request->file("images.$key");
                 $ext=$images->extension();
                 $image_name=$rand.'.'.$ext;
-                $request->file("images.$key")->move('/public/media',$image_name);
+                $request->file("images.$key")->storeAs('/public/media',$image_name);
                 $productImageArr['images']=$image_name;
                 
                 if($piidArr[$key]!=''){

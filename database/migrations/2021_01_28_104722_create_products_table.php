@@ -25,7 +25,15 @@ class CreateProductsTable extends Migration
             $table->longText('technical_specification');
             $table->longText('uses');
             $table->longText('warranty');
-            $table->integer('status');
+            $table->string('lead_time');
+            $table->integer('tax_id');
+            $table->string('tax');
+            $table->string('tax_type');
+            $table->integer('is_promo');
+            $table->integer('is_featured');
+            $table->integer('is_discounted');
+            $table->integer('is_trending');
+            $table->integer('status');	
             $table->timestamps();
         });
     }
