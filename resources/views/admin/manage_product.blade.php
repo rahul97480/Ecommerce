@@ -78,6 +78,9 @@ Back
                            {{$message}}		
                         </div>
                         @enderror
+                        @if($image!='')
+                           <a href="{{asset('storage/media/'.$image)}}" target="_blank"><img width="100px" src="{{asset('storage/media/'.$image)}}"/></a>
+                        @endif
                      </div>
                      <div class="form-group">
                         <div class="row">

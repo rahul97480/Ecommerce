@@ -13,11 +13,10 @@ class CreateTaxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('taxs', function (Blueprint $table) {
+        Schema::create('taxes', function (Blueprint $table) {
             $table->id();
             $table->string('tax_desc');
             $table->string('tax_value');
-            $table->integer('status');
             $table->timestamps();
         });
     }

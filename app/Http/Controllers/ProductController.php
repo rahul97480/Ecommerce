@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Storage;
+
 
 class ProductController extends Controller
 {
@@ -152,6 +154,11 @@ class ProductController extends Controller
         }
 
         if($request->hasfile('image')){
+            if($request->post('id')>0){                
+                $arrImage=DB::table('products')->where(['id'=>$request->post('id')])->get();
+                $file_path = public_path('/storage/media/'. $arrImage[0]->image );
+                unlink($file_path);
+            }
             $image=$request->file('image');
             $ext=$image->extension();
             $image_name=time().'.'.$ext;
@@ -175,12 +182,13 @@ class ProductController extends Controller
         $model->is_promo=$request->post('is_promo');
         $model->is_featured=$request->post('is_featured');
         $model->is_discounted=$request->post('is_discounted');
-        $model->is_trending=$request->post('is_tranding');
+        $model->is_tranding=$request->post('is_tranding');
         $model->status=1;
         $model->save();
         $pid=$model->id;
         /*Product Attr Start*/ 
         foreach($skuArr as $key=>$val){
+            $productAttrArr=[];
             $productAttrArr['products_id']=$pid;
             $productAttrArr['sku']=$skuArr[$key];
             $productAttrArr['mrp']=(int)$mrpArr[$key];
@@ -197,13 +205,18 @@ class ProductController extends Controller
             }else{
                 $productAttrArr['color_id']=$color_idArr[$key];
             }
-            
             if($request->hasFile("attr_image.$key")){
+                if($paidArr[$key]!=''){ 
+                    $arrImage=DB::table('products_attr')->where(['id'=>$paidArr[$key]])->get();
+                    $file_path = public_path('/storage/media/'. $arrImage[0]->attr_image );
+                    unlink($file_path);
+                }
+
                 $rand=rand('111111111','999999999');
                 $attr_image=$request->file("attr_image.$key");
                 $ext=$attr_image->extension();
                 $image_name=$rand.'.'.$ext;
-                $request->file("attr_image.$key")->storeAs('/public/media',$image_name);
+                $request->file("attr_image.$key")->move(public_path('/storage/media'), $image_name);
                 $productAttrArr['attr_image']=$image_name;
             }
 
@@ -221,11 +234,18 @@ class ProductController extends Controller
         foreach($piidArr as $key=>$val){
             $productImageArr['products_id']=$pid;
             if($request->hasFile("images.$key")){
+
+                if($piidArr[$key]!=''){ 
+                    $arrImage=DB::table('product_images')->where(['id'=>$piidArr[$key]])->get();
+                    $file_path = public_path('/storage/media/'. $arrImage[0]->images );
+                    unlink($file_path);
+                }
+
                 $rand=rand('111111111','999999999');
                 $images=$request->file("images.$key");
                 $ext=$images->extension();
                 $image_name=$rand.'.'.$ext;
-                $request->file("images.$key")->storeAs('/public/media',$image_name);
+                $request->file("images.$key")->move(public_path('/storage/media'), $image_name);
                 $productImageArr['images']=$image_name;
                 
                 if($piidArr[$key]!=''){
@@ -252,11 +272,17 @@ class ProductController extends Controller
     }
 
     public function product_attr_delete(Request $request,$paid,$pid){
+        $arrImage=DB::table('products_attr')->where(['id'=>$paid])->get();
+        $file_path = public_path('storage/media/'. $arrImage[0]->attr_image );
+        unlink($file_path);
         DB::table('products_attr')->where(['id'=>$paid])->delete();
         return redirect('admin/product/manage_product/'.$pid);
     }
 
     public function product_images_delete(Request $request,$paid,$pid){
+        $arrImage=DB::table('product_images')->where(['id'=>$paid])->get();
+        $file_path = public_path('storage/media/'. $arrImage[0]->images );
+        unlink($file_path);
         DB::table('product_images')->where(['id'=>$paid])->delete();
         return redirect('admin/product/manage_product/'.$pid);
     }

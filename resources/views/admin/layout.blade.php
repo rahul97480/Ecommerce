@@ -67,12 +67,17 @@
 
                         <li class="@yield('tax_select')">
                             <a href="{{url('admin/tax')}}">
-                            <i class="fa fa-product-hunt"></i>Tax</a>
+                            <i class="fas fa-percent"></i>Tax</a>
                         </li>
 
                         <li class="@yield('product_select')">
                             <a href="{{url('admin/product')}}">
                             <i class="fa fa-product-hunt"></i>Product</a>
+                        </li>
+
+                        <li class="@yield('customer_select')">
+                            <a href="{{url('admin/customer')}}">
+                            <i class="fa fa-user"></i>Customer</a>
                         </li>
                     </ul>
                 </div>
@@ -122,12 +127,17 @@
 
                         <li class="@yield('tax_select')">
                             <a href="{{url('admin/tax')}}">
-                            <i class="fa fa-product-hunt"></i>Tax</a>
+                            <i class="fas fa-percent"></i>Tax</a>
                         </li>
 
                         <li class="@yield('product_select')">
                             <a href="{{url('admin/product')}}">
                             <i class="fa fa-product-hunt"></i>Product</a>
+                        </li>
+
+                        <li class="@yield('customer_select')">
+                            <a href="{{url('admin/customer')}}">
+                            <i class="fa fa-user"></i>Customer</a>
                         </li>
 
                         

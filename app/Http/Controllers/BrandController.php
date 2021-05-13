@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Storage;
 
 class BrandController extends Controller
 {
@@ -51,10 +53,20 @@ class BrandController extends Controller
         }
 
         if($request->hasfile('image')){
+
+            if($request->post('id')>0){
+                $arrImage=DB::table('brands')->where(['id'=>$request->post('id')])->get();
+                $file_path = public_path('/storage/media/brand/'. $arrImage[0]->image );
+                unlink($file_path);
+                //if(Storage::exists('/public/media/brand/'.$arrImage[0]->image)){
+                //    Storage::delete('/public/media/brand/'.$arrImage[0]->image);
+                //}
+            }
+
             $image=$request->file('image');
             $ext=$image->extension();
             $image_name=time().'.'.$ext;
-            $image->storeAs('/public/media/brand',$image_name);
+            $image->move(public_path('/storage/media/brand'), $image_name);
             $model->image=$image_name;
         }
         
