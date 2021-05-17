@@ -26,7 +26,7 @@
                                         <div class="col-md-4">
                                             <label for="category_name" class="control-label mb-1">Parent  Category</label>
                                             <select id="parent_category_id" name="parent_category_id" class="form-control" required>
-                                            <option value="">Select Categories</option>
+                                            <option value="0">Select Categories</option>
                                             @foreach($category as $list)
                                             @if($parent_category_id==$list->id)
                                             <option selected value="{{$list->id}}">
@@ -64,6 +64,10 @@
                                     @if($category_image!='')
                                             <a href="{{asset('storage/media/category/'.$category_image)}}" target="_blank"><img width="100px" src="{{asset('storage/media/category/'.$category_image)}}"/></a>
                                         @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for="image" class="control-label mb-1"> Show in Home Page</label>
+                                    <input id="is_home" name="is_home" type="checkbox" {{$is_home_selected}}>
                                 </div>
                                 <div>
                                     <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
