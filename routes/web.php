@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\HomeBannerController;
+
 use App\Http\Controllers\Front\FrontController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[FrontController::class,'index']);
+Route::get('product/{id}',[FrontController::class,'product']);
+Route::post('add_to_cart',[FrontController::class,'add_to_cart']);
 
 Route::get('admin',[AdminController::class,'index']);
 Route::post('admin/auth',[AdminController::class,'auth'])->name('admin.auth');
@@ -92,6 +96,14 @@ Route::group(['middleware'=>'admin_auth'],function(){
     Route::get('admin/customer',[CustomerController::class,'index']);
     Route::get('admin/customer/show/{id}',[CustomerController::class,'show']);
     Route::get('admin/customer/status/{status}/{id}',[CustomerController::class,'status']);
+
+
+    Route::get('admin/home_banner',[HomeBannerController::class,'index']);
+    Route::get('admin/home_banner/manage_home_banner',[HomeBannerController::class,'manage_home_banner']);
+    Route::get('admin/home_banner/manage_home_banner/{id}',[HomeBannerController::class,'manage_home_banner']);
+    Route::post('admin/home_banner/manage_home_banner_process',[HomeBannerController::class,'manage_home_banner_process'])->name('home_banner.manage_home_banner_process');
+    Route::get('admin/home_banner/delete/{id}',[HomeBannerController::class,'delete']);
+    Route::get('admin/home_banner/status/{status}/{id}',[HomeBannerController::class,'status']);
     
     Route::get('admin/logout', function () {
         session()->forget('ADMIN_LOGIN');
