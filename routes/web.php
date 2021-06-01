@@ -29,6 +29,9 @@ Route::get('category/{id}',[FrontController::class,'category']);
 Route::get('product/{id}',[FrontController::class,'product']);
 Route::post('add_to_cart',[FrontController::class,'add_to_cart']);
 Route::get('cart',[FrontController::class,'cart']);
+Route::get('search/{str}',[FrontController::class,'search']);
+Route::get('registration',[FrontController::class,'registration']);
+Route::post('registration_process',[FrontController::class,'registration_process'])->name('registration.registration_process');
 
 Route::get('admin',[AdminController::class,'index']);
 Route::post('admin/auth',[AdminController::class,'auth'])->name('admin.auth');
