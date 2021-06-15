@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2021 at 07:05 AM
+-- Generation Time: May 08, 2021 at 12:51 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -52,7 +52,6 @@ CREATE TABLE `brands` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_home` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -62,10 +61,8 @@ CREATE TABLE `brands` (
 -- Dumping data for table `brands`
 --
 
-INSERT INTO `brands` (`id`, `name`, `image`, `is_home`, `status`, `created_at`, `updated_at`) VALUES
-(5, 'java', '1620732037.png', 1, 1, '2021-05-11 05:50:37', '2021-05-11 05:50:37'),
-(6, 'Joomla', '1620732049.png', 1, 1, '2021-05-11 05:50:49', '2021-05-11 05:50:49'),
-(7, 'WordPress', '1620732061.png', 1, 1, '2021-05-11 05:51:01', '2021-05-11 05:51:01');
+INSERT INTO `brands` (`id`, `name`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(3, 'Rahul Gupta', '1620469764.jpg', 1, '2021-05-06 05:40:02', '2021-05-08 04:59:24');
 
 -- --------------------------------------------------------
 
@@ -78,8 +75,7 @@ CREATE TABLE `categories` (
   `category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `parent_category_id` int(11) NOT NULL,
-  `category_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_home` int(11) NOT NULL,
+  `category_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -89,11 +85,9 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `category_name`, `category_slug`, `parent_category_id`, `category_image`, `is_home`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Electronics', 'dwew', 5, '1620319226.jpg', 1, 1, '2021-05-05 01:43:19', '2021-05-11 05:39:44'),
-(6, 'Random', 'Phones12', 3, '1620732346.jpg', 1, 1, '2021-05-09 08:43:29', '2021-05-11 05:55:46'),
-(7, 'Sports1', 'Sports_1', 8, '1620732353.jpg', 1, 1, '2021-05-11 05:40:26', '2021-05-13 06:45:03'),
-(8, 'Sports', 'dwewsd', 0, NULL, 0, 1, '2021-05-13 06:44:22', '2021-05-13 06:44:22');
+INSERT INTO `categories` (`id`, `category_name`, `category_slug`, `parent_category_id`, `category_image`, `status`, `created_at`, `updated_at`) VALUES
+(3, 'New Category', 'dwew', 5, '1620319226.jpg', 1, '2021-05-05 01:43:19', '2021-05-06 11:10:26'),
+(5, 'Mobiles', 'Phones', 3, '1620319192.jpg', 1, '2021-05-06 11:09:52', '2021-05-06 11:09:52');
 
 -- --------------------------------------------------------
 
@@ -177,31 +171,6 @@ INSERT INTO `customers` (`id`, `name`, `email`, `mobile`, `password`, `address`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `home_banners`
---
-
-CREATE TABLE `home_banners` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `btn_txt` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `btn_link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `home_banners`
---
-
-INSERT INTO `home_banners` (`id`, `image`, `btn_txt`, `btn_link`, `status`, `created_at`, `updated_at`) VALUES
-(2, '1620800797.jpg', 'Home Banner', '123.123', 1, '2021-05-12 00:56:12', '2021-05-12 01:18:50'),
-(3, '1620802571.jpg', 'Home Banner 2', '123.123', 1, '2021-05-12 01:26:11', '2021-05-12 01:26:11'),
-(4, '1620802659.jpg', 'Home Banner', '123.123', 1, '2021-05-12 01:27:39', '2021-05-12 01:27:39');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `migrations`
 --
 
@@ -227,8 +196,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2021_05_03_092059_product_images', 7),
 (22, '2021_02_03_114909_create_brands_table', 8),
 (29, '2021_02_05_082218_create_taxes_table', 9),
-(30, '2021_05_08_094440_create_customers_table', 10),
-(31, '2021_05_12_060613_create_home_banners_table', 11);
+(30, '2021_05_08_094440_create_customers_table', 10);
 
 -- --------------------------------------------------------
 
@@ -268,8 +236,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `image`, `slug`, `brand`, `model`, `short_desc`, `desc`, `keywords`, `technical_specification`, `uses`, `warranty`, `lead_time`, `tax_id`, `tax`, `tax_type`, `is_promo`, `is_featured`, `is_discounted`, `is_tranding`, `status`, `created_at`, `updated_at`) VALUES
-(12, 6, 'Rahul Gupta', '1620731664.png', 'sada', '5', 'swww355', '<p>ssa</p>', '<p>sddf</p>', 'dfs', '<p>dsf</p>', 'fdsf', '3', '3', 1, NULL, NULL, 0, 1, 1, 1, 1, '2021-05-10 00:28:10', '2021-05-11 05:55:02'),
-(13, 6, 'Poco', '1620731683.png', 'asdas', '4', '45', '<p>rret</p>', '<p>ertet</p>', 'ret', '<p>erte</p>', 'ert', '44', '3', 1, NULL, NULL, 0, 0, 0, 0, 1, '2021-05-10 00:29:56', '2021-05-11 05:44:43');
+(7, 5, 'sda', '1620318098.jpg', 'asdww', '3', 'sds', '<p>s</p>', '<p>ad</p>', 'dsad', '<p>sdad</p>', 'sd', 'sdas', '1', 1, '', '', 0, 0, 0, 0, 0, '2021-05-01 10:36:00', '2021-05-08 05:09:17'),
+(10, 1, 'Poco', '1620146275.jpg', 'asdas', '2', 'sadas', 'fdgdfg', 'dfgfdgd', 'gdfg', 'dfgdfg', 'dfg', '4', '', 0, '', '', 0, 0, 0, 0, 0, '2021-05-04 11:07:55', '2021-05-04 11:08:08'),
+(11, 1, 'Academy of Technology', '1620197708.jpg', 'wqe22', '2', 'sada', '<p>sdad</p>', '<p>sad</p>', 'sadas', '<p>sadas</p>', 'sad', '2', '3', 1, NULL, NULL, 0, 0, 0, 0, 1, '2021-05-05 01:25:08', '2021-05-05 01:25:08');
 
 -- --------------------------------------------------------
 
@@ -295,13 +264,12 @@ CREATE TABLE `products_attr` (
 
 INSERT INTO `products_attr` (`id`, `products_id`, `sku`, `attr_image`, `mrp`, `price`, `qty`, `size_id`, `color_id`) VALUES
 (1, 6, 'as', 'test', 20, 200, 1, 0, 0),
-(2, 7, '1', '204111436.jpg', 1, 1, 1, 0, 0),
+(2, 7, '1', '416156238.jpg', 1, 1, 1, 0, 0),
 (4, 8, '423', '307437801.jpg', 2, 2, 1, 1, 1),
 (5, 10, '3', '363784065.jpg', 3, 3, 3, 1, 1),
-(6, 11, '223', 'test', 2, 2, 2, 0, 1),
-(8, 7, '2', '904533499.jpg', 2, 2, 2, 0, 0),
-(10, 12, '66', '310644150.jpg', 66, 66, 66, 0, 0),
-(12, 13, '4', '176025979.jpg', 4, 4, 4, 0, 0);
+(6, 11, '223', '878891167.jpg', 2, 2, 2, 1, 1),
+(8, 7, '2', '238440383.jpg', 2, 2, 2, 0, 0),
+(9, 7, '9', '555088593.jpg', 9, 9, 9, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -320,12 +288,10 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `products_id`, `images`) VALUES
-(1, 7, '948105841.jpg'),
+(1, 7, '863587977.jpg'),
 (4, 8, '547106450.jpg'),
 (5, 10, '919487156.jpg'),
-(6, 11, '946827715.jpg'),
-(10, 12, '237107220.jpg'),
-(12, 13, '422388749.jpg');
+(6, 11, '946827715.jpg');
 
 -- --------------------------------------------------------
 
@@ -411,12 +377,6 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `home_banners`
---
-ALTER TABLE `home_banners`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -466,13 +426,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `colors`
@@ -493,34 +453,28 @@ ALTER TABLE `customers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `home_banners`
---
-ALTER TABLE `home_banners`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `products_attr`
 --
 ALTER TABLE `products_attr`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `sizes`

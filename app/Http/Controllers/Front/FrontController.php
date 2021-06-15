@@ -226,7 +226,7 @@ class FrontController extends Controller
     public function add_to_cart(Request $request)
     {
         if($request->session()->has('FRONT_USER_LOGIN')){
-            $uid=$request->session()->get('FRONT_USER_LOGIN');
+            $uid=$request->session()->get('FRONT_USER_ID');
             $user_type="Reg";
         }else{
             $uid=getUserTempId();
@@ -295,7 +295,7 @@ class FrontController extends Controller
     public function cart(Request $request)
     {
         if($request->session()->has('FRONT_USER_LOGIN')){
-            $uid=$request->session()->get('FRONT_USER_LOGIN');
+            $uid=$request->session()->get('FRONT_USER_ID');
             $user_type="Reg";
         }else{
             $uid=getUserTempId();
@@ -412,8 +412,6 @@ class FrontController extends Controller
                 return response()->json(['status'=>"error",'msg'=>'Your account has been deactivated']); 
             }
 
-
-
             if($db_pwd==$request->str_login_password){
 
                 if($request->rememberme===null){
@@ -429,6 +427,12 @@ class FrontController extends Controller
                 $request->session()->put('FRONT_USER_NAME',$result[0]->name);
                 $status="success";
                 $msg="";
+
+                $getUserTempId=getUserTempId();
+                DB::table('cart')  
+                    ->where(['user_id'=>$getUserTempId,'user_type'=>'Not-Reg'])
+                    ->update(['user_id'=>$result[0]->id,'user_type'=>'Reg']);
+                
             }else{
                 $status="error";
                 $msg="Please enter valid password";
@@ -451,7 +455,7 @@ class FrontController extends Controller
         if(isset($result[0])){
             DB::table('customers')  
             ->where(['id'=>$result[0]->id])
-            ->update(['is_verify'=>1,'rand_id'=>'']); // rand_id is updates because the link is no more accepted 
+            ->update(['is_verify'=>1,'rand_id'=>'']);
         return view('front.verification');
         }else{
             return redirect('/');
@@ -514,4 +518,39 @@ class FrontController extends Controller
             ); 
         return response()->json(['status'=>'success','msg'=>'Password changed']);     
     }
+
+    public function checkout(Request $request)
+    {
+        $result['cart_data']=getAddToCartTotalItem();
+
+        if(isset($result['cart_data'][0])){
+
+            if($request->session()->has('FRONT_USER_LOGIN')){
+                $uid=$request->session()->get('FRONT_USER_ID');
+                $customer_info=DB::table('customers')  
+                    ->where(['id'=> $uid])
+                     ->get(); 
+                $result['customers']['name']=$customer_info[0]->name;
+                $result['customers']['email']=$customer_info[0]->email;
+                $result['customers']['mobile']=$customer_info[0]->mobile;
+                $result['customers']['address']=$customer_info[0]->address;
+                $result['customers']['city']=$customer_info[0]->city;
+                $result['customers']['state']=$customer_info[0]->state;
+                $result['customers']['zip']=$customer_info[0]->zip;
+            }else{
+                $result['customers']['name']='';
+                $result['customers']['email']='';
+                $result['customers']['mobile']='';
+                $result['customers']['address']='';
+                $result['customers']['city']='';
+                $result['customers']['state']='';
+                $result['customers']['zip']='';
+            }
+
+            return view('front.checkout',$result);
+        }else{
+            return redirect('/');
+        }
+    }
+    
 }
