@@ -45,6 +45,10 @@ Route::post('forgot_password',[FrontController::class,'forgot_password']);
 Route::get('/forgot_password_change/{id}',[FrontController::class,'forgot_password_change']);
 Route::post('forgot_password_change_process',[FrontController::class,'forgot_password_change_process']);
 Route::get('/checkout',[FrontController::class,'checkout']);
+Route::post('apply_coupon_code',[FrontController::class,'apply_coupon_code']);
+Route::post('remove_coupon_code',[FrontController::class,'remove_coupon_code']);
+
+
 
 Route::get('admin',[AdminController::class,'index']);
 Route::post('admin/auth',[AdminController::class,'auth'])->name('admin.auth');
