@@ -51,8 +51,8 @@
                       </tr>
                       @endforeach
                       <tr>
-                        <td colspan="6" class="aa-cart-view-bottom">
-                          <input class="aa-cart-view-btn" type="button" value="Checkout">
+                        ><td colspan="6" class="aa-cart-view-bottom">
+                          <a href="/checkout"><input class="aa-cart-view-btn" type="button" value="Checkout"></a>
                         </td>
                       </tr>
                       </tbody>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2021 at 07:05 AM
+-- Generation Time: Jun 18, 2021 at 05:12 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -65,7 +65,32 @@ CREATE TABLE `brands` (
 INSERT INTO `brands` (`id`, `name`, `image`, `is_home`, `status`, `created_at`, `updated_at`) VALUES
 (5, 'java', '1620732037.png', 1, 1, '2021-05-11 05:50:37', '2021-05-11 05:50:37'),
 (6, 'Joomla', '1620732049.png', 1, 1, '2021-05-11 05:50:49', '2021-05-11 05:50:49'),
-(7, 'WordPress', '1620732061.png', 1, 1, '2021-05-11 05:51:01', '2021-05-11 05:51:01');
+(7, 'WordPress', '1620732061.png', 1, 1, '2021-05-11 05:51:01', '2021-05-11 05:51:01'),
+(8, 'Levis', '1621880155.png', 1, 1, '2021-05-24 12:45:55', '2021-05-24 12:45:55'),
+(9, 'Puma', '1621935058.jpg', 1, 1, '2021-05-25 04:00:58', '2021-05-25 04:00:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_type` enum('Reg','Not-Reg') NOT NULL,
+  `qty` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_attr_id` int(11) NOT NULL,
+  `added_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `user_type`, `qty`, `product_id`, `product_attr_id`, `added_on`) VALUES
+(1, 7, 'Reg', 33, 1, 1, '2021-06-15 11:20:15');
 
 -- --------------------------------------------------------
 
@@ -90,10 +115,10 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `category_name`, `category_slug`, `parent_category_id`, `category_image`, `is_home`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Electronics', 'dwew', 5, '1620319226.jpg', 1, 1, '2021-05-05 01:43:19', '2021-05-11 05:39:44'),
-(6, 'Random', 'Phones12', 3, '1620732346.jpg', 1, 1, '2021-05-09 08:43:29', '2021-05-11 05:55:46'),
-(7, 'Sports1', 'Sports_1', 8, '1620732353.jpg', 1, 1, '2021-05-11 05:40:26', '2021-05-13 06:45:03'),
-(8, 'Sports', 'dwewsd', 0, NULL, 0, 1, '2021-05-13 06:44:22', '2021-05-13 06:44:22');
+(3, 'Electronics', 'Electronics_Items', 0, '1621879065.jpg', 1, 1, '2021-05-05 01:43:19', '2021-05-24 12:28:15'),
+(6, 'shirts', 'Shirts_Items', 0, '1621879176.jpg', 1, 1, '2021-05-09 08:43:29', '2021-05-24 12:29:54'),
+(7, 'Books', 'Book_Items', 0, '1621879283.jpg', 1, 1, '2021-05-11 05:40:26', '2021-05-24 12:31:23'),
+(8, 'Latest Books', 'New_Books', 7, NULL, 0, 1, '2021-05-13 06:44:22', '2021-05-24 12:31:43');
 
 -- --------------------------------------------------------
 
@@ -114,8 +139,10 @@ CREATE TABLE `colors` (
 --
 
 INSERT INTO `colors` (`id`, `color`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Red', 1, '2021-05-01 07:35:38', '2021-05-01 07:36:25'),
-(2, 'Yellow', 0, '2021-05-01 07:35:41', '2021-05-01 07:35:44');
+(1, 'Pink', 1, '2021-05-01 07:35:38', '2021-05-17 00:43:41'),
+(2, 'Yellow', 1, '2021-05-01 07:35:41', '2021-05-17 00:43:16'),
+(3, 'Green', 1, '2021-05-24 12:54:02', '2021-05-24 12:54:02'),
+(4, 'Black', 1, '2021-05-25 04:01:56', '2021-05-25 04:01:56');
 
 -- --------------------------------------------------------
 
@@ -156,13 +183,16 @@ CREATE TABLE `customers` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mobile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `state` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `zip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gstin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` int(11) NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zip` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gstin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_verify` int(11) NOT NULL,
+  `rand_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_forgot_password` int(11) NOT NULL,
+  `status` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -171,8 +201,9 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `name`, `email`, `mobile`, `password`, `address`, `city`, `state`, `zip`, `company`, `gstin`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Rahul', 'abc@gmail.com', '9999999999', 'rahul', 'iluah', 'kol', 'fd', '711204', 'dfgd', 'dfgdgdg', 0, NULL, '2021-05-08 05:20:43');
+INSERT INTO `customers` (`id`, `name`, `email`, `mobile`, `password`, `address`, `city`, `state`, `zip`, `company`, `gstin`, `is_verify`, `rand_id`, `is_forgot_password`, `status`, `created_at`, `updated_at`) VALUES
+(7, 'Rahul Gupta', 'guptarahul97480@gmail.com', '7003724118', 'eyJpdiI6IjdUYS91czZ2Q01UMndTUUs0eWE5T1E9PSIsInZhbHVlIjoiYlhReVBNNHc3MWdPRTJXQ0ZDZXkzQT09IiwibWFjIjoiMTQ0OTAzNjAwNDJmOTViNTlmYTA2NmQ0YTVlZDI1ZTZiZDFkZWI5ODNkNDZlOWY3YTk1ZmYyOGE5YjdiMmUyMyJ9', NULL, NULL, NULL, NULL, NULL, NULL, 1, '821122941', 1, 1, '2021-06-06 00:33:08', '2021-06-06 00:33:08'),
+(8, 'Prem', 'guptarahulalwaysonl9@gmail.com', '7003724118', 'eyJpdiI6IjhyamlTL0JLaVV0MUd6QkdpKzMrbFE9PSIsInZhbHVlIjoibUllZWg0amtLdTdzNmF5ZnlLMGltdz09IiwibWFjIjoiY2JlMDcyOTZiZjY5MDk1ODljYmY4ODUzMWZmM2IyOWFkNDE2ZTZmMjliYzdkYWJlYWUyMWZhZWIxZWU0Mjc3YSJ9', NULL, NULL, NULL, NULL, NULL, NULL, 0, '971861132', 0, 1, '2021-06-06 00:48:27', '2021-06-06 00:48:27');
 
 -- --------------------------------------------------------
 
@@ -196,8 +227,8 @@ CREATE TABLE `home_banners` (
 
 INSERT INTO `home_banners` (`id`, `image`, `btn_txt`, `btn_link`, `status`, `created_at`, `updated_at`) VALUES
 (2, '1620800797.jpg', 'Home Banner', '123.123', 1, '2021-05-12 00:56:12', '2021-05-12 01:18:50'),
-(3, '1620802571.jpg', 'Home Banner 2', '123.123', 1, '2021-05-12 01:26:11', '2021-05-12 01:26:11'),
-(4, '1620802659.jpg', 'Home Banner', '123.123', 1, '2021-05-12 01:27:39', '2021-05-12 01:27:39');
+(3, '1621879435.jpg', 'Home Banner 2', 'Void', 1, '2021-05-12 01:26:11', '2021-05-24 12:33:55'),
+(4, '1621879480.jpg', 'Home Banner  3', 'Void', 1, '2021-05-12 01:27:39', '2021-05-24 12:34:40');
 
 -- --------------------------------------------------------
 
@@ -229,6 +260,67 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (29, '2021_02_05_082218_create_taxes_table', 9),
 (30, '2021_05_08_094440_create_customers_table', 10),
 (31, '2021_05_12_060613_create_home_banners_table', 11);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `customers_id` int(11) NOT NULL,
+  `name` int(11) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `mobile` varchar(200) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `city` varchar(200) NOT NULL,
+  `state` varchar(200) NOT NULL,
+  `pincode` varchar(200) NOT NULL,
+  `coupon_code` varchar(200) DEFAULT NULL,
+  `coupon_value` int(11) DEFAULT NULL,
+  `order_status` int(11) NOT NULL,
+  `payment_type` enum('COD','Gateway') NOT NULL,
+  `payment_status` varchar(50) NOT NULL,
+  `payment_id` varchar(50) NOT NULL,
+  `total_amt` int(11) NOT NULL,
+  `added_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders_details`
+--
+
+CREATE TABLE `orders_details` (
+  `id` int(11) NOT NULL,
+  `orders_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `products_attr_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders_status`
+--
+
+CREATE TABLE `orders_status` (
+  `id` int(11) NOT NULL,
+  `order_status` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orders_status`
+--
+
+INSERT INTO `orders_status` (`id`, `order_status`) VALUES
+(1, 'Place'),
+(2, 'On the way'),
+(3, 'Delivered');
 
 -- --------------------------------------------------------
 
@@ -268,8 +360,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `image`, `slug`, `brand`, `model`, `short_desc`, `desc`, `keywords`, `technical_specification`, `uses`, `warranty`, `lead_time`, `tax_id`, `tax`, `tax_type`, `is_promo`, `is_featured`, `is_discounted`, `is_tranding`, `status`, `created_at`, `updated_at`) VALUES
-(12, 6, 'Rahul Gupta', '1620731664.png', 'sada', '5', 'swww355', '<p>ssa</p>', '<p>sddf</p>', 'dfs', '<p>dsf</p>', 'fdsf', '3', '3', 1, NULL, NULL, 0, 1, 1, 1, 1, '2021-05-10 00:28:10', '2021-05-11 05:55:02'),
-(13, 6, 'Poco', '1620731683.png', 'asdas', '4', '45', '<p>rret</p>', '<p>ertet</p>', 'ret', '<p>erte</p>', 'ert', '44', '3', 1, NULL, NULL, 0, 0, 0, 0, 1, '2021-05-10 00:29:56', '2021-05-11 05:44:43');
+(1, 6, 'Shirts', '1622283014.png', 'Shirts_Items', '8', 'NEW', '<p>This is the Short Description</p>', '<p>This is teh main Description Area</p>', 'Shirts new Pink Green Blue', '<p>This is the Technical&nbsp;Specifivation of the Product</p>', 'Wear Smartly !!', '0', '3', 1, NULL, NULL, 1, 1, 1, 1, 1, '2021-05-24 12:49:17', '2021-05-29 04:40:14'),
+(3, 6, 'Shirts', '1622283025.png', 'Shirts_New1', '8', 'abcModel', '<p>Shor Desc</p>', '<p>Desc</p>', 'shirts Green', '<p>Technical Specification</p>', 'Wear', '0', '3', 1, NULL, NULL, 1, 1, 1, 1, 1, '2021-05-24 12:53:03', '2021-05-29 04:40:25'),
+(4, 7, 'Puma Shoes', '1621935364.jpg', 'Shoes_Puma', '9', 'AbcD', '<p>Short Description</p>', '<p>Description</p>', 'Puma Shoes', '<p>Technical Specification</p>', 'Shoes', '1', '1', 1, NULL, NULL, 1, 1, 1, 1, 1, '2021-05-25 04:06:04', '2021-05-25 04:06:04');
 
 -- --------------------------------------------------------
 
@@ -294,14 +387,12 @@ CREATE TABLE `products_attr` (
 --
 
 INSERT INTO `products_attr` (`id`, `products_id`, `sku`, `attr_image`, `mrp`, `price`, `qty`, `size_id`, `color_id`) VALUES
-(1, 6, 'as', 'test', 20, 200, 1, 0, 0),
-(2, 7, '1', '204111436.jpg', 1, 1, 1, 0, 0),
-(4, 8, '423', '307437801.jpg', 2, 2, 1, 1, 1),
-(5, 10, '3', '363784065.jpg', 3, 3, 3, 1, 1),
-(6, 11, '223', 'test', 2, 2, 2, 0, 1),
-(8, 7, '2', '904533499.jpg', 2, 2, 2, 0, 0),
-(10, 12, '66', '310644150.jpg', 66, 66, 66, 0, 0),
-(12, 13, '4', '176025979.jpg', 4, 4, 4, 0, 0);
+(1, 1, '1', '404926436.jpg', 599, 399, 5, 1, 1),
+(2, 1, '2', '769059456.jpg', 599, 299, 1, 2, 2),
+(3, 3, '55', '253257083.jpg', 399, 299, 1, 1, 1),
+(4, 4, '5', '897792631.jpg', 1499, 1299, 20, 3, 4),
+(5, 4, '6', '365920152.jpg', 1499, 1299, 1, 4, 4),
+(6, 4, '11', '134570556.jpg', 1499, 1299, 1, 5, 4);
 
 -- --------------------------------------------------------
 
@@ -320,12 +411,9 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `products_id`, `images`) VALUES
-(1, 7, '948105841.jpg'),
-(4, 8, '547106450.jpg'),
-(5, 10, '919487156.jpg'),
-(6, 11, '946827715.jpg'),
-(10, 12, '237107220.jpg'),
-(12, 13, '422388749.jpg');
+(1, 1, '543286884.jpg'),
+(2, 3, '709025703.jpg'),
+(3, 4, '748482878.jpg');
 
 -- --------------------------------------------------------
 
@@ -346,7 +434,12 @@ CREATE TABLE `sizes` (
 --
 
 INSERT INTO `sizes` (`id`, `size`, `status`, `created_at`, `updated_at`) VALUES
-(1, '32', 0, '2021-04-30 02:25:06', '2021-05-06 05:23:24');
+(1, '32', 1, '2021-04-30 02:25:06', '2021-05-20 00:46:32'),
+(2, '34', 1, '2021-05-20 00:45:46', '2021-05-20 00:46:33'),
+(3, '9 UK', 1, '2021-05-25 04:01:25', '2021-05-25 04:01:25'),
+(4, '10 UK', 1, '2021-05-25 04:01:36', '2021-05-25 04:01:36'),
+(5, '8 UK', 1, '2021-05-25 04:01:41', '2021-05-25 04:01:41'),
+(6, '7 UK', 1, '2021-05-25 04:01:46', '2021-05-25 04:01:46');
 
 -- --------------------------------------------------------
 
@@ -368,7 +461,7 @@ CREATE TABLE `taxs` (
 --
 
 INSERT INTO `taxs` (`id`, `tax_desc`, `tax_value`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'sasdas', '100', 1, '2021-05-08 04:32:31', '2021-05-08 04:32:31');
+(1, 'This tax goes to the Goverment', '18% GST', 1, '2021-05-24 12:46:30', '2021-05-24 12:46:30');
 
 --
 -- Indexes for dumped tables
@@ -384,6 +477,12 @@ ALTER TABLE `admins`
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -420,6 +519,18 @@ ALTER TABLE `home_banners`
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders_details`
+--
+ALTER TABLE `orders_details`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -466,7 +577,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -478,7 +595,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `coupons`
@@ -490,7 +607,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `home_banners`
@@ -505,28 +622,40 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `orders_details`
+--
+ALTER TABLE `orders_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products_attr`
 --
 ALTER TABLE `products_attr`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sizes`
 --
 ALTER TABLE `sizes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `taxs`
