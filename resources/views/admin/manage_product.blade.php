@@ -314,7 +314,7 @@ Back
                               <select id="color_id" name="color_id[]" class="form-control">
                                  <option value="">Select</option>
                                  @foreach($colors as $list)
-                                    @if($pAArr['size_id']==$list->id)
+                                    @if($pAArr['color_id']==$list->id)
                                     <option value="{{$list->id}}" selected>{{$list->color}}</option>
                                     @else
                                     <option value="{{$list->id}}">{{$list->color}}</option>

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Admin\HomeBanner;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use Storage;
 class HomeBannerController extends Controller
 {
     public function index()
@@ -30,6 +30,7 @@ class HomeBannerController extends Controller
             $result['btn_link']='';
             $result['id']="";
         }
+
         return view('admin/manage_home_banner',$result);
     }
 
@@ -51,16 +52,15 @@ class HomeBannerController extends Controller
 
             if($request->post('id')>0){
                 $arrImage=DB::table('home_banners')->where(['id'=>$request->post('id')])->get();
-                if($arrImage[0]->image){
-                    $file_path = public_path('storage/media/banner/'. $arrImage[0]->image );
-                    unlink($file_path);
+                if(Storage::exists('/public/media/banner/'.$arrImage[0]->image)){
+                    Storage::delete('/public/media/banner/'.$arrImage[0]->image);
                 }
             }
 
             $image=$request->file('image');
             $ext=$image->extension();
             $image_name=time().'.'.$ext;
-            $image->move(public_path('/storage/media/banner'),$image_name);
+            $image->storeAs('/public/media/banner',$image_name);
             $model->image=$image_name;
 
         }
@@ -87,4 +87,5 @@ class HomeBannerController extends Controller
         $request->session()->flash('message','Banner status updated');
         return redirect('admin/home_banner');
     }
+    
 }

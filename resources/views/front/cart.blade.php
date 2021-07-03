@@ -51,8 +51,9 @@
                       </tr>
                       @endforeach
                       <tr>
-                        ><td colspan="6" class="aa-cart-view-bottom">
-                          <a href="/checkout"><input class="aa-cart-view-btn" type="button" value="Checkout"></a>
+                        <td colspan="6" class="aa-cart-view-bottom">
+                          
+                          <a class="aa-cartbox-checkout aa-primary-btn" href="{{url('/checkout')}}"><input class="aa-cart-view-btn" type="button" value="Checkout"></a>
                         </td>
                       </tr>
                       </tbody>

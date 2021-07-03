@@ -83,9 +83,7 @@
                       foreach($product_attr[$product[0]->id] as $attr){
                         $arrSize[]=$attr->size;
                       }  
-                      
                       $arrSize=array_unique($arrSize);
-                      
                      
                     @endphp
                     @foreach($arrSize as $attr)  

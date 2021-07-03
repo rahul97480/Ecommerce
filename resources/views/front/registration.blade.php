@@ -35,7 +35,7 @@
                     @csrf                
                   </form>
                 </div>
-                <div id="thank_you_msg" class="field_success"></div>
+                <div id="thank_you_msg" class="field_error"></div>
               </div>
             </div>          
          </div>

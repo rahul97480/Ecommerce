@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
+
 use App\Models\Admin\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,10 +28,9 @@ class CategoryController extends Controller
             $result['category_image']=$arr['0']->category_image;
             $result['is_home']=$arr['0']->is_home;
             $result['is_home_selected']="";
-            if($arr['0']->is_home == 1){
+            if($arr['0']->is_home==1){
                 $result['is_home_selected']="checked";
             }
-            
             $result['id']=$arr['0']->id;
 
             $result['category']=DB::table('categories')->where(['status'=>1])->where('id','!=',$id)->get();
@@ -40,7 +39,7 @@ class CategoryController extends Controller
             $result['category_slug']='';
             $result['parent_category_id']='';
             $result['category_image']='';
-            $result['is_home']='';
+            $result['is_home']="";
             $result['is_home_selected']="";
             $result['id']=0;
 
@@ -73,16 +72,15 @@ class CategoryController extends Controller
 
             if($request->post('id')>0){
                 $arrImage=DB::table('categories')->where(['id'=>$request->post('id')])->get();
-                if($arrImage[0]->category_image){
-                    $file_path = public_path('storage/media/category/'. $arrImage[0]->category_image );
-                    unlink($file_path);
+                if(Storage::exists('/public/media/category/'.$arrImage[0]->category_image)){
+                    Storage::delete('/public/media/category/'.$arrImage[0]->category_image);
                 }
             }
 
             $image=$request->file('category_image');
             $ext=$image->extension();
             $image_name=time().'.'.$ext;
-            $image->move(public_path('storage/media/category'),$image_name);
+            $image->storeAs('/public/media/category',$image_name);
             $model->category_image=$image_name;
         }
         $model->category_name=$request->post('category_name');
